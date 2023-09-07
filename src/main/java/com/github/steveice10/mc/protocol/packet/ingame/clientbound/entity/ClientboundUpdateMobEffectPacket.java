@@ -19,7 +19,7 @@ public class ClientboundUpdateMobEffectPacket implements Packet {
     private static final int FLAG_SHOW_PARTICLES = 0x02;
 
     private final int entityId;
-    private final @NonNull Effect effect;
+    private final Effect effect;
     private final int amplifier;
     private final int duration;
     private final boolean ambient;
@@ -27,7 +27,8 @@ public class ClientboundUpdateMobEffectPacket implements Packet {
 
     public ClientboundUpdateMobEffectPacket(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.effect = Effect.fromNetworkId(in.readVarInt());
+        int effectId = in.readVarInt();
+        this.effect = effectId == 0 ? null : Effect.fromNetworkId(effectId);
         this.amplifier = in.readByte();
         this.duration = in.readVarInt();
 
